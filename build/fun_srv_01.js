@@ -60,17 +60,27 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
         var interval = setInterval(function () {
             observer.next('nastepnee ' + (i = Math.random() * 10));
             if (i < 1) {
-                clearInterval(interval);
+                //clearInterval(interval);
                 console.log('eot');
                 observer.complete();
             }
             if (i > 9) {
-                clearInterval(interval);
+                //clearInterval(interval);
                 observer.error('bum');
             }
         }, 500);
+
+        ///!!!!!!!!!!!!!!!!!
+        // ta funkcja zwracana przez observable to taki dispose
+        // wykonywana jest przy unsubscribe errorze lub complete!!!!
+        return function () {
+            console.log('koncze prace');
+            clearInterval(interval);
+        };
     });
 
+    interval$.subscribe(console.log, console.error);
+    interval$.subscribe(console.log, console.error);
     interval$.subscribe(console.log, console.error);
 })();
 
