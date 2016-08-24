@@ -1,4 +1,5 @@
 import Rx from 'rxjs/Rx'
+import {createSubscription} from './subscriptionScript'
 
 //promisy rozwiaza sie nawet jesli sie na nie nie zarejestruje. promise zaczyna wykonanie tuz po utworzeniu
 (() => {
@@ -76,19 +77,19 @@ import Rx from 'rxjs/Rx'
 
 
 // nowy sposob na deklaracje obieku zawierajacego funkcje ponizej tak jak fun(){...} === fun: funkcja(){...}
-function createSubscription(tag) {
-    return {
-        next(item) {
-            console.log(`${tag}.next ${item}`);
-        },
-        error(error) {
-            console.log(`${tag}.error ${error.stack || error}`);
-        },
-        complete() {
-            console.log(`${tag}.complete`);
-        }
-    }
-}
+//function createSubscription(tag) {
+//    return {
+//        next(item) {
+//            console.log(`${tag}.next ${item}`);
+//        },
+//        error(error) {
+//            console.log(`${tag}.error ${error.stack || error}`);
+//        },
+//        complete() {
+//            console.log(`${tag}.complete`);
+//        }
+//    }
+//}
 
 function createInterval$(intv){
     let i = 0;

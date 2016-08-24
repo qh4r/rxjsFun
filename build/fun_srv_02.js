@@ -4,21 +4,9 @@ var _Rx = require('rxjs/Rx');
 
 var _Rx2 = _interopRequireDefault(_Rx);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _subscriptionScript = require('./subscriptionScript');
 
-function createSubscription(tag) {
-    return {
-        next: function next(item) {
-            console.log(tag + '.next ' + item);
-        },
-        error: function error(_error) {
-            console.log(tag + '.error ' + (_error.stack || _error));
-        },
-        complete: function complete() {
-            console.log(tag + '.complete');
-        }
-    };
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function createInterval$(intv) {
     var i = 0;
@@ -59,7 +47,7 @@ function take(inputObserver, amount) {
     });
 }
 
-take(seconds$, 8).take(4).subscribe(createSubscription('own take '));
+take(seconds$, 8).take(4).subscribe((0, _subscriptionScript.createSubscription)('own take '));
 
 //setTimeout(() => {
 //   subscription.unsubscribe();

@@ -1,18 +1,5 @@
 import Rx from 'rxjs/Rx'
-
-function createSubscription(tag) {
-    return {
-        next(item) {
-            console.log(`${tag}.next ${item}`);
-        },
-        error(error) {
-            console.log(`${tag}.error ${error.stack || error}`);
-        },
-        complete() {
-            console.log(`${tag}.complete`);
-        }
-    }
-}
+import {createSubscription} from './subscriptionScript'
 
 function createInterval$(intv){
     let i = 0;

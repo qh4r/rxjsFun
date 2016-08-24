@@ -4,6 +4,8 @@ var _Rx = require('rxjs/Rx');
 
 var _Rx2 = _interopRequireDefault(_Rx);
 
+var _subscriptionScript = require('./subscriptionScript');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //promisy rozwiaza sie nawet jesli sie na nie nie zarejestruje. promise zaczyna wykonanie tuz po utworzeniu
@@ -85,19 +87,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 })();
 
 // nowy sposob na deklaracje obieku zawierajacego funkcje ponizej tak jak fun(){...} === fun: funkcja(){...}
-function createSubscription(tag) {
-    return {
-        next: function next(item) {
-            console.log(tag + '.next ' + item);
-        },
-        error: function error(_error) {
-            console.log(tag + '.error ' + (_error.stack || _error));
-        },
-        complete: function complete() {
-            console.log(tag + '.complete');
-        }
-    };
-}
+//function createSubscription(tag) {
+//    return {
+//        next(item) {
+//            console.log(`${tag}.next ${item}`);
+//        },
+//        error(error) {
+//            console.log(`${tag}.error ${error.stack || error}`);
+//        },
+//        complete() {
+//            console.log(`${tag}.complete`);
+//        }
+//    }
+//}
 
 function createInterval$(intv) {
     var i = 0;
@@ -110,4 +112,4 @@ function createInterval$(intv) {
 var eachSecond$ = createInterval$(1000);
 //obiekt sformatowany jak tenn z create subscription (czyli zawieracjacy funkcje next error i complete
 // mozna rpzekazac do subscribe
-eachSecond$.subscribe(createSubscription('each second: '));
+eachSecond$.subscribe((0, _subscriptionScript.createSubscription)('each second: '));
