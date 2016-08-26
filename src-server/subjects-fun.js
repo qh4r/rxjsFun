@@ -1,4 +1,3 @@
-
 import Rx from 'rxjs/Rx'
 import {createSubscription} from './subscriptionScript'
 
@@ -42,9 +41,9 @@ isAdmin$.subscribe(createSubscription('admin: '));
 
 setTimeout(() => isLoggedIn$.subscribe(createSubscription('loggedin 2nd: ')), 1500);
 currentUser$.next({isLoggedIn: false, isAdmin: false});
-setTimeout(() => currentUser$.next({name: 'adaś' ,isLoggedIn: true, isAdmin: false}), 1000);
+setTimeout(() => currentUser$.next({name: 'adaś', isLoggedIn: true, isAdmin: false}), 1000);
 setTimeout(() => currentUser$.next({isLoggedIn: false, isAdmin: false}), 2000);
-setTimeout(() => currentUser$.next({name: 'qhr' ,isLoggedIn: true, isAdmin: true}), 3000);
+setTimeout(() => currentUser$.next({name: 'qhr', isLoggedIn: true, isAdmin: true}), 3000);
 
 
 //REPLAY ZAPAMIETUJE CALA KOLEJKE I ZWRACA WSZYSTKIE WARTOSCI OD JEJ POCZATKU PRZY REJESTRACJI
@@ -53,13 +52,13 @@ const replay$ = new Rx.ReplaySubject(3);
 
 replay$.subscribe(createSubscription('replay: '));
 replay$.next('raz');
-setTimeout(() => replay$.next('dwa'),1000);
-setTimeout(() => replay$.next('trzy'),2000);
-setTimeout(() => replay$.subscribe(createSubscription('delayed: ')),3000);
-setTimeout(() => replay$.next('cztery'),4000);
-setTimeout(() => replay$.next('pięć'),5000);
-setTimeout(() => replay$.subscribe(createSubscription('delayed more: ')),6000);
-setTimeout(() => replay$.next('szesc'),7000);
+setTimeout(() => replay$.next('dwa'), 1000);
+setTimeout(() => replay$.next('trzy'), 2000);
+setTimeout(() => replay$.subscribe(createSubscription('delayed: ')), 3000);
+setTimeout(() => replay$.next('cztery'), 4000);
+setTimeout(() => replay$.next('pięć'), 5000);
+setTimeout(() => replay$.subscribe(createSubscription('delayed more: ')), 6000);
+setTimeout(() => replay$.next('szesc'), 7000);
 // ASYNC SUBJECT emituje tylko ostatni stan tuż przed tym jak zostanie ukonczony
 // po tym jak zostal completed orazu bedzie daawal ostatnia swoja wartosc kolejnym subskrypcja
 const asyncSub$ = new Rx.AsyncSubject;
@@ -79,3 +78,5 @@ setTimeout(() => {
 setTimeout(() => asyncSub$.subscribe(createSubscription('async3: ')), 4000);
 
 asyncSub$.next(3);
+
+
