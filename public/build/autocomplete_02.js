@@ -26387,7 +26387,7 @@ var $results = (0, _jquery2.default)('#results');
 var keyUps$ = _Rx2.default.Observable.fromEvent($title, 'keyup');
 var queries$ = keyUps$.map(function (e) {
     return e.target.value;
-}).distinctUntilChanged().debounceTime(200).switchMap(function (x) {
+}).distinctUntilChanged().debounceTime(500).switchMap(function (x) {
     console.log(x);
     return getItems(x);
 });

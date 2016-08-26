@@ -14,7 +14,7 @@ rdy$.first()
         Rx.Observable.fromEvent($klikBtn, 'click')
             .subscribe({
                 next(x) {
-                    for(var elem in x.target){
+                    for (var elem in x.target) {
                         console.log(`${elem} => ${x.target[elem]}`)
                     }
                 },

@@ -8,7 +8,7 @@ const keyUps$ = Rx.Observable.fromEvent($title, 'keyup');
 const queries$ = keyUps$
     .map(e => e.target.value)
     .distinctUntilChanged()
-    .debounceTime(200)
+    .debounceTime(500)
     .switchMap(x => {
         console.log(x);
         return getItems(x)
