@@ -46,16 +46,18 @@ setTimeout(() => {
 //publish Replay - zawsze zwraca to co juz bylo zachowane (zaelzene od argumentu) podczas rejestracji
 const zipped$ = Rx.Observable.zip(
     Rx.Observable.from([32, 12, 3, 45, 2, 31]),
-    Rx.Observable.of('A', 'B', 'C'),
+    Rx.Observable.of('A', 'B', 'C', 'D'),
     (x, y) => x + y)
     .map(x => {
         console.log(x);
         return x.toLowerCase();
-    //}).publishLast();
-    }).publishReplay(2)
+    })
+    //.publish()
+    //.publishLast()
+    .publishReplay(2)
     // REFCOUNT - sprawia ze connect sam wywolywany jest podczas pierwszej subskrycji a konczony przy ostatniej unsubscribe
-    .refCount();
-    //.share() // < == .publish().refCount() -- taki skrót
+    .refCount()
+    //.share() // < == .publish().refCount() -- taki skrót -- wyglada na to ze jednak tak nie dziala
 
 // SHARE BARDZO PRZYDAJE SIE PODCZAS OBSLUGI SOCKETOW
 
