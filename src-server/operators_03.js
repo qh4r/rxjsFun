@@ -25,3 +25,23 @@ Rx.Observable.interval(200)
     //))
     .scan((s, x) => s + x, 0)
     .subscribe(createSubscription('scan: '));
+
+//buffer zwraca tablice z elementow ktore nadeszly w zaleznosci od typu i parametrow
+Rx.Observable.interval(200)
+    .take(20)
+    .bufferCount(5) //grupuje po ilosci otrzymanych
+    //.bufferTime(150) //w milisekundach - zwraca grupy w czasie
+    // jesli w przedziale czasowym nie bedzie wartosci - zwroci psuta tablice
+    .subscribe(createSubscription('buffer: '));
+
+Rx.Observable.timer(1000,500)
+    .take(20)
+    .buffer(Rx.Observable.interval(1500)) // w tym wypadku dziala tak jak buffer time
+    // - tutaj sygnalem naoproznienie buffera jest sygnal z observable
+    .subscribe(createSubscription('buffer from rx: '));
+
+//To array zbiera calosc i emituje dopiero na evencie complete
+Rx.Observable.interval(200)
+    .take(10)
+    .toArray()
+    .subscribe(createSubscription('toArray: '));

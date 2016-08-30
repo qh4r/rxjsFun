@@ -30,3 +30,16 @@ _Rx2.default.Observable.interval(200).startWith(15).take(10)
 .scan(function (s, x) {
     return s + x;
 }, 0).subscribe((0, _subscriptionScript.createSubscription)('scan: '));
+
+//buffer zwraca tablice z elementow ktore nadeszly w zaleznosci od typu i parametrow
+_Rx2.default.Observable.interval(200).take(20).bufferCount(5) //grupuje po ilosci otrzymanych
+//.bufferTime(150) //w milisekundach - zwraca grupy w czasie
+// jesli w przedziale czasowym nie bedzie wartosci - zwroci psuta tablice
+.subscribe((0, _subscriptionScript.createSubscription)('buffer: '));
+
+_Rx2.default.Observable.timer(1000, 500).take(20).buffer(_Rx2.default.Observable.interval(1500)) // w tym wypadku dziala tak jak buffer time
+// - tutaj sygnalem naoproznienie buffera jest sygnal z observable
+.subscribe((0, _subscriptionScript.createSubscription)('buffer from rx: '));
+
+//To array zbiera calosc i emituje dopiero na evencie complete
+_Rx2.default.Observable.interval(200).take(10).toArray().subscribe((0, _subscriptionScript.createSubscription)('toArray: '));
