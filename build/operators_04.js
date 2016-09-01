@@ -54,8 +54,9 @@ _rx2.default.Observable.range(110, 10)
 //jesli error jest 2 argumentem to wystapi dopiero po udanej konkatenacji obu zakresow jesli jest pierwszy
 // to wypisany zostanie tylko pierwszy zakres a potem wyrzucony zostanie eeror
 //.concat(Rx.Observable.range(1,10), Rx.Observable.throw(new Error('test')))
-.retry(3) //powtarza po errorze
-.concat(_rx2.default.Observable.throw(new Error('test')), _rx2.default.Observable.range(1, 10)).catch(function (error) {
+.concat(_rx2.default.Observable.throw(new Error('test')), _rx2.default.Observable.range(1, 10)).retry(3) //powtarza po errorze - dziala tylko na cold observable i ciagnie od nowa
+// - error zostanie rzucony dopieo gdy skoncza sie retry
+.catch(function (error) {
     return _rx2.default.Observable.of(error);
 }) //sposob na handlowanie errorow
 .subscribe((0, _subscriptionScript.createSubscription)('tryCatch: '));
