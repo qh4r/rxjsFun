@@ -30,5 +30,32 @@ _rx2.default.Observable.interval(100)
 .subscribe(function (x) {
     console.log(new Date() - start + ' single next: ' + x);
 }, null, function () {
+
     console.log(new Date().getTime() - start + ' complete next:');
 });
+
+// zip zwroci tylko tyle elementow ile par zdola polaczyc, dopasuje sie do krotszej z kolekcji
+_rx2.default.Observable.of('asdfghjl').flatMap(function (x) {
+    return x.toUpperCase();
+}).zip(_rx2.default.Observable.range(1, 10), function (x, y) {
+    return x + y;
+}).subscribe((0, _subscriptionScript.createSubscription)('zip:'));
+
+// bierze zawsze najswiezsze z drugiej kolekcji i dodaje je do tego co jest w 1 -- w formie tablicy
+// withLatestFrom emituje tylko gdy pojawi sie nowa wartosc w pierwszym zrodle
+_rx2.default.Observable.interval(700)
+//.withLatestFrom(Rx.Observable.interval(250))
+//COMbINE LATEST - emituje wartosc gdy ktorykolwiek z observabli ja emituje
+.combineLatest(_rx2.default.Observable.interval(250)).subscribe(function (array) {
+    return console.log(array[0] + ' <-latest-> ' + array[1]);
+});
+
+_rx2.default.Observable.range(110, 10)
+//jesli error jest 2 argumentem to wystapi dopiero po udanej konkatenacji obu zakresow jesli jest pierwszy
+// to wypisany zostanie tylko pierwszy zakres a potem wyrzucony zostanie eeror
+//.concat(Rx.Observable.range(1,10), Rx.Observable.throw(new Error('test')))
+.retry(3) //powtarza po errorze
+.concat(_rx2.default.Observable.throw(new Error('test')), _rx2.default.Observable.range(1, 10)).catch(function (error) {
+    return _rx2.default.Observable.of(error);
+}) //sposob na handlowanie errorow
+.subscribe((0, _subscriptionScript.createSubscription)('tryCatch: '));
