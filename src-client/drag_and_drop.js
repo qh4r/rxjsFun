@@ -23,17 +23,25 @@ const drops$ = beginDrag$
     })
     .mergeMap(startEvent => {
         return mouseMove$
+            .do(() => $body.append($drag))
             .takeUntil(endDrag$)
             .do(mouseEvent => moveDrag(startEvent, mouseEvent))
             .last()
-        .withLatestFrom(currentArea$, (move, $area) => $area)
+            .withLatestFrom(currentArea$, (move, $area) => {
+                return {area: $area, move: move, start: startEvent}
+            })
     })
-    .do(() => {
-        $drag.removeClass('dragging')
-            .animate({top: 0, left: 0}, 250);
+    .do((args) => {
+        $drag.removeClass('dragging');
+
+        $drag.css({
+            top: 0, left: 0
+        });
+        //.animate({top: 0, left: 0}, 250);
     });
 
-drops$.subscribe($dropArea => {
+drops$.subscribe(args => {
+    const $dropArea = args.area;
     $dropAreas.removeClass('dropped');
     $dropArea && $dropArea.addClass('dropped');
     ($dropArea || $body).append($drag);
@@ -42,7 +50,7 @@ drops$.subscribe($dropArea => {
 
 function moveDrag(startEvent, moveEvent) {
     $drag.css({
-        left: moveEvent.clientX - startEvent.offsetX,
-        top: moveEvent.clientY - startEvent.offsetY
+        left: moveEvent.clientX,
+        top: moveEvent.clientY
     })
 }

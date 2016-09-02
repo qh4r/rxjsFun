@@ -26402,16 +26402,24 @@ var drops$ = beginDrag$.do(function (e) {
     e.preventDefault();
     $drag.addClass('dragging');
 }).mergeMap(function (startEvent) {
-    return mouseMove$.takeUntil(endDrag$).do(function (mouseEvent) {
+    return mouseMove$.do(function () {
+        return $body.append($drag);
+    }).takeUntil(endDrag$).do(function (mouseEvent) {
         return moveDrag(startEvent, mouseEvent);
     }).last().withLatestFrom(currentArea$, function (move, $area) {
-        return $area;
+        return { area: $area, move: move, start: startEvent };
     });
-}).do(function () {
-    $drag.removeClass('dragging').animate({ top: 0, left: 0 }, 250);
+}).do(function (args) {
+    $drag.removeClass('dragging');
+
+    $drag.css({
+        top: 0, left: 0
+    });
+    //.animate({top: 0, left: 0}, 250);
 });
 
-drops$.subscribe(function ($dropArea) {
+drops$.subscribe(function (args) {
+    var $dropArea = args.area;
     $dropAreas.removeClass('dropped');
     $dropArea && $dropArea.addClass('dropped');
     ($dropArea || $body).append($drag);
@@ -26420,8 +26428,8 @@ drops$.subscribe(function ($dropArea) {
 
 function moveDrag(startEvent, moveEvent) {
     $drag.css({
-        left: moveEvent.clientX - startEvent.offsetX,
-        top: moveEvent.clientY - startEvent.offsetY
+        left: moveEvent.clientX,
+        top: moveEvent.clientY
     });
 }
 
